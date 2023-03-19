@@ -8,11 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import at.altin.hw3_newslist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var mainActivityBinding: ActivityMainBinding
+    private lateinit var mainActivityBinding: ActivityMainBinding
 
-    val TAG = "MainActivity"
+    private val logTag = "MainActivity"
 
-    val newsViewModel: NewsViewModel by viewModels()
+    private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         newsViewModel.news.observe(this) { it ->
             val newsAdapter = NewsAdapter(it, this)
             newsAdapter.onItemClickListener = {
-                Log.i(TAG, "News clicked: $it")
+                Log.i(logTag, "News clicked: $it")
             }
             mainActivityBinding.newsRecyclerView.adapter = newsAdapter
         }

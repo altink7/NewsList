@@ -1,5 +1,9 @@
 package at.altin.hw3_newslist
 
+import android.app.Activity
+import android.app.Application
+import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
@@ -8,6 +12,7 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
+
 
 /**
  * The ViewModel for the NewsListActivity
@@ -24,9 +29,6 @@ class NewsViewModel : ViewModel() {
     val hasError : LiveData<Boolean>
         get() = _hasError
     private val _hasError = MutableLiveData(false)
-
-    val newsAsString : LiveData<String>
-        get() = _news.map { it.toString() }
 
     fun loadNews() {
         _hasError.postValue(false)
