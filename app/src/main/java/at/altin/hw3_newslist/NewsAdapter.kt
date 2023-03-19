@@ -8,6 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Adapter for the news list
+ *  @param news the list of news items
+ *  @param context the context of the activity
+ *  @author Altin
+ *  @version 1.0
+ *  @since 2023-03-19
+ */
 class NewsAdapter(val news: List<NewsItem>, val context: Context) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     var onItemClickListener: ((NewsItem) -> Unit)? = null

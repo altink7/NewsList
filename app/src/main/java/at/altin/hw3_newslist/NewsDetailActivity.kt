@@ -9,7 +9,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import at.altin.hw3_newslist.databinding.ActivityNewsDetailBinding
 
-
+/**
+ * NewsDetailActivity
+ * @author altin
+ * @version 1.0
+ * @since 2023-03-19
+ */
 class NewsDetailActivity : AppCompatActivity() {
     private lateinit var newsDetailActivityBinding: ActivityNewsDetailBinding
 
@@ -53,7 +58,7 @@ class NewsDetailActivity : AppCompatActivity() {
             }
         }
 
-        val button = findViewById<Button>(R.id.loadNewsButton)
+        val button = findViewById<Button>(R.id.navigateBack)
         button.setOnClickListener {
             finish()
         }

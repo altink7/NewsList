@@ -2,13 +2,20 @@ package at.altin.hw3_newslist
 
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Adapter for the news list
+ *  @param news the list of news items
+ *  @param context the context of the activity
+ *  @author Altin
+ *  @version 1.0
+ *  @since 2023-03-19
+ */
 class NewsDetailAdapter(val news: NewsItem, val context: Context) : RecyclerView.Adapter<NewsDetailAdapter.NewsViewHolder>() {
 
     var onItemClickListener: ((NewsItem) -> Unit)? = null

@@ -36,7 +36,5 @@ class MainActivity : AppCompatActivity() {
                     .show()
             }
         }
-
     }
-
 }

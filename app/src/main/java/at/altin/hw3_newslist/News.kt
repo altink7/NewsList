@@ -56,3 +56,13 @@ fun parseXmlNews(result: String): List<NewsItem> {
     }
     return newsItems
 }
+
+/**
+ * Takes a mutable list of news items and sorts them by publication date in descending order
+ * @param news the list of news items
+ * @return the sorted list
+ */
+fun sortNewsByPublicationDate(news: MutableList<NewsItem>): List<NewsItem> {
+    news.sortByDescending { it.publicationDate }
+    return news
+}

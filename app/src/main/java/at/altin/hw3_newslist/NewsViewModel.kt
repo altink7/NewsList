@@ -1,11 +1,10 @@
 package at.altin.hw3_newslist
 
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import android.content.Intent
 import android.util.Log
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -18,6 +17,9 @@ import java.net.URL
  * The ViewModel for the NewsListActivity
  * It loads the news from the web and parses it into a list of News objects
  * It also handles the error state
+ * @author Altin
+ *  @version 1.0
+ *  @since 2023-03-19
  */
 class NewsViewModel : ViewModel() {
     val logTag = "NewsViewModel"
