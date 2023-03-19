@@ -8,10 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import at.altin.hw3_newslist.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var mainActivityBinding: ActivityMainBinding
-
     private val logTag = "MainActivity"
-
     private val newsViewModel: NewsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {

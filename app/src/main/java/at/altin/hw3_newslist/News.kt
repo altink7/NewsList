@@ -54,7 +54,7 @@ fun parseXmlNews(result: String): List<NewsItem> {
             NewsItem(i+1, title, description, url, author, publicationDate, fullArticleLink, keywords)
         )
     }
-    return newsItems
+    return sortNewsByPublicationDate(newsItems)
 }
 
 /**

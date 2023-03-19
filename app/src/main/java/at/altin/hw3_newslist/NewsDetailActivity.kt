@@ -31,20 +31,9 @@ class NewsDetailActivity : AppCompatActivity() {
         newsDetailActivityBinding.lifecycleOwner = this
         newsDetailActivityBinding.newsViewModel = newsViewModel
 
-        //objects
-        val id = intent.getIntExtra("id", 0)
-        val title = intent.getStringExtra("title").toString()
-        val description = intent.getStringExtra("description").toString()
-        val url = intent.getStringExtra("url").toString()
-        val author = intent.getStringExtra("author").toString()
-        val publicationDate = intent.getStringExtra("publicationDate").toString()
-        val fullArticleLink = intent.getStringExtra("fullArticleLink").toString()
-        val keywords: MutableList<String> = mutableListOf()
-           keywords.add(intent.getStringExtra("keywords").toString())
+        val item = intent.getStringExtra("newsItem").toString()
 
-
-
-            val newsDetailAdapter = NewsDetailAdapter(NewsItem(id,title,description,url,author,publicationDate,fullArticleLink, keywords), this)
+            val newsDetailAdapter = NewsDetailAdapter(item, this)
             newsDetailAdapter.onItemClickListener = {
                 Log.i(logTag, "News clicked: $it")
             }

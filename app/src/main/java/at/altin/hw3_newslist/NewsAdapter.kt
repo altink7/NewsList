@@ -44,14 +44,7 @@ class NewsAdapter(val news: List<NewsItem>, val context: Context) : RecyclerView
 
             itemView.setOnClickListener {
                 val startNewsDetailActivity = Intent(context, NewsDetailActivity::class.java)
-                startNewsDetailActivity.putExtra("id", newsItem.id)
-                startNewsDetailActivity.putExtra("title", newsItem.title)
-                startNewsDetailActivity.putExtra("description", newsItem.description)
-                startNewsDetailActivity.putExtra("url", newsItem.url)
-                startNewsDetailActivity.putExtra("author", newsItem.author)
-                startNewsDetailActivity.putExtra("publicationDate", newsItem.publicationDate)
-                startNewsDetailActivity.putExtra("fullArticleLink", newsItem.fullArticleLink)
-                startNewsDetailActivity.putExtra("keywords", newsItem.keywords.toString())
+                startNewsDetailActivity.putExtra("newsItem", newsItemToString(newsItem))
                 context.startActivity(startNewsDetailActivity)
             }
         }
