@@ -45,10 +45,10 @@ fun parseXmlNews(result: String): List<NewsItem> {
         val newsItem = news.item(i)
         val title = newsItem.childNodes.item(0).textContent
         val description = newsItem.childNodes.item(1).textContent
-        val url = newsItem.childNodes.item(2).textContent
+        val url = newsItem.childNodes.item(18)?.attributes?.getNamedItem("url")?.nodeValue.toString().trim()
         val author = newsItem.childNodes.item(5).textContent
         val publicationDate = newsItem.childNodes.item(9).textContent
-        val fullArticleLink = newsItem.childNodes.item(11).textContent
+        val fullArticleLink = newsItem.childNodes.item(2).textContent
         val keywords = newsItem.childNodes.item(12).textContent.split(",").map { it.trim() }
         newsItems.add(
             NewsItem(i+1, title, description, url, author, publicationDate, fullArticleLink, keywords)
