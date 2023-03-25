@@ -1,4 +1,4 @@
-package at.altin.hw3_newslist
+package at.altin.hw3_newslist.recyclerView
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import at.altin.hw3_newslist.R
+import at.altin.hw3_newslist.activity.NewsDetailActivity
+import at.altin.hw3_newslist.model.NewsItem
+import at.altin.hw3_newslist.model.newsItemToString
 
 /**
  * Adapter for the news list

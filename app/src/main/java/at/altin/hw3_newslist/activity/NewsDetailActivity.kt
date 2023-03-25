@@ -1,4 +1,4 @@
-package at.altin.hw3_newslist
+package at.altin.hw3_newslist.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import at.altin.hw3_newslist.recyclerView.NewsDetailAdapter
+import at.altin.hw3_newslist.NewsViewModel
+import at.altin.hw3_newslist.R
 import at.altin.hw3_newslist.databinding.ActivityNewsDetailBinding
 
 /**

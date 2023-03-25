@@ -5,13 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import at.altin.hw3_newslist.model.NewsItem
+import at.altin.hw3_newslist.model.parseXmlNews
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
-
 
 /**
  * The ViewModel for the NewsListActivity
@@ -27,6 +28,7 @@ class NewsViewModel : ViewModel() {
     val news : LiveData<List<NewsItem>>
         get() = _news
     private val _news = MutableLiveData<List<NewsItem>>()
+
 
     val hasError : LiveData<Boolean>
         get() = _hasError
@@ -44,6 +46,10 @@ class NewsViewModel : ViewModel() {
                 }
                 is Failed -> {
                     Log.e(logTag, result.text, result.throwable)
+                    _hasError.postValue(true)
+                }
+                else -> {
+                    Log.e(logTag, "Unknown result type")
                     _hasError.postValue(true)
                 }
             }
