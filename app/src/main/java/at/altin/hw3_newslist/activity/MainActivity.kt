@@ -7,9 +7,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
@@ -18,6 +20,7 @@ import androidx.preference.PreferenceManager
 import at.altin.hw3_newslist.NewsViewModel
 import at.altin.hw3_newslist.R
 import at.altin.hw3_newslist.databinding.ActivityMainBinding
+import at.altin.hw3_newslist.model.NewsItem
 import at.altin.hw3_newslist.recyclerView.NewsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
@@ -46,12 +49,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 Log.i(logTag, "News clicked: $it")
             }
             mainActivityBinding.newsRecyclerView.adapter = newsAdapter
-
-            Glide
-                .with(this)
-                .load("https://s.yimg.com/os/creatr-uploaded-images/2022-05/a6338660-cfa9-11ec-bd4f-4c2709cea43e")
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(mainActivityBinding.image)
         }
 
 
@@ -61,6 +58,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     .show()
             }
         }
+
         mainActivityBinding.openSettings.setOnClickListener {
             Intent(applicationContext, SettingsActivity::class.java).also {
                 startActivity(it)
@@ -108,6 +106,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         if (item.itemId == R.id.menuitem_settings) {
             Intent(applicationContext, SettingsActivity::class.java)
                 .also { startActivity(it) }
+            return true
+        }
+        if(item.itemId == R.id.button_load_data) {
+            newsViewModel.loadNews()
             return true
         }
         return super.onOptionsItemSelected(item)

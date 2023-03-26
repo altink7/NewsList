@@ -18,4 +18,6 @@
     </string>
     <string name="download_img_bg_desc_on">Images will be downloaded in the background</string>
     <string name="download_img_bg_desc_off">Images will not be downloaded in the background</string>
+    <string name="load_data">Load Data</string>
+    <string name="settings">Settings</string>
 </resources>
