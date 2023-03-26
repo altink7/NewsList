@@ -1,6 +1,8 @@
 package at.altin.hw3_newslist.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -67,12 +69,8 @@ class NewsDetailActivity : AppCompatActivity() {
         val fullStoryButton = findViewById<Button>(R.id.fullStory)
 
         fullStoryButton.setOnClickListener {
-            val descriptionParam = findViewById<TextView>(R.id.news_description)
-            val layoutParam = descriptionParam.layoutParams as ConstraintLayout.LayoutParams
-            layoutParam.height = 1400
-            descriptionParam.layoutParams = layoutParam
-            fullStoryButton.isEnabled = false
-            fullStoryButton.visibility = View.GONE
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(fullArticleLink))
+            startActivity(intent)
         }
     }
 }
