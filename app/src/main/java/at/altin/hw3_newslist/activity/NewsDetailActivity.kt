@@ -3,6 +3,7 @@ package at.altin.hw3_newslist.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -63,13 +64,15 @@ class NewsDetailActivity : AppCompatActivity() {
         button.setOnClickListener {
             finish()
         }
+        val fullStoryButton = findViewById<Button>(R.id.fullStory)
 
-        findViewById<Button>(R.id.fullStory)?.setOnClickListener {
+        fullStoryButton.setOnClickListener {
             val descriptionParam = findViewById<TextView>(R.id.news_description)
             val layoutParam = descriptionParam.layoutParams as ConstraintLayout.LayoutParams
             layoutParam.height = 1400
             descriptionParam.layoutParams = layoutParam
-            findViewById<Button>(R.id.fullStory).isEnabled = false
+            fullStoryButton.isEnabled = false
+            fullStoryButton.visibility = View.GONE
         }
     }
 }

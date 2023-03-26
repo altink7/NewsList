@@ -18,7 +18,7 @@
             android:id="@+id/openSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Open Settings"
+            android:text="@string/open_settings"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
