@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import at.altin.hw3_newslist.R
 import at.altin.hw3_newslist.activity.NewsDetailActivity
@@ -22,7 +23,13 @@ import com.bumptech.glide.Glide
  *  @version 1.0
  *  @since 2023-03-19
  */
-class NewsAdapter(val news: List<NewsItem>, val context: Context) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(news: List<NewsItem>, val context: Context) :
+    RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
+    var news = news
+        set(value) {
+        field = value
+        notifyDataSetChanged()
+        }
 
     var onItemClickListener: ((NewsItem) -> Unit)? = null
 
@@ -36,7 +43,7 @@ class NewsAdapter(val news: List<NewsItem>, val context: Context) : RecyclerView
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.bind(news[position])
+        holder.bind(news[position],position)
     }
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,18 +53,46 @@ class NewsAdapter(val news: List<NewsItem>, val context: Context) : RecyclerView
         private val date: TextView = itemView.findViewById(R.id.news_date)
         private val image: ImageView = itemView.findViewById(R.id.news_image)
 
-
-        fun bind(newsItem: NewsItem) {
-
+        fun bind(newsItem: NewsItem, position: Int) {
             id.text = buildString { append(newsItem.id); append(": ") }
             title.text = newsItem.title
             author.text = newsItem.author
             date.text = newsItem.publicationDate
-                Glide
-                    .with(context)
-                    .load(newsItem.url)
-                    .placeholder(R.drawable.ic_launcher_background)
-                    .into(image)
+
+            Glide
+                .with(context)
+                .load(newsItem.url)
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(image)
+
+            if (position == 0) {
+                    val layoutParams = image.layoutParams as ConstraintLayout.LayoutParams
+                    layoutParams.width = ConstraintLayout.LayoutParams.MATCH_PARENT
+                    layoutParams.height = 500
+                    image.layoutParams = layoutParams
+                    image.scaleType = ImageView.ScaleType.FIT_XY
+                    image.alpha = 0.4f
+
+                fun setLayoutParams(view: View) {
+                    val layoutParams = view.layoutParams as ConstraintLayout.LayoutParams
+                    layoutParams.horizontalBias = 0.0f
+
+                    view.layoutParams = layoutParams
+                }
+
+                setLayoutParams(title)
+                setLayoutParams(author)
+                setLayoutParams(date)
+                setLayoutParams(id)
+            }
+             if(position %11==0&&position!=0){
+                val layoutParams = image.layoutParams as ConstraintLayout.LayoutParams
+                 layoutParams.height = 280
+                 layoutParams.width = 280
+                 image.layoutParams = layoutParams
+                 image.scaleType = ImageView.ScaleType.FIT_XY
+                 image.alpha = 1f
+                }
 
             onItemClickListener?.invoke(newsItem)
 

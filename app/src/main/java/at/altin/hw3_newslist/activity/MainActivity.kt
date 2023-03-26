@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.allViews
 import androidx.core.view.get
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     private lateinit var mainActivityBinding: ActivityMainBinding
     private val logTag = "MainActivity"
-    val showImages = booleanPreferencesKey("showImages")
+    val showImages = booleanPreferencesKey("displayImages")
 
     private val newsViewModel: NewsViewModel by viewModels()
 
@@ -88,12 +91,24 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
-
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key == "sync"){
-            val syncSetting = sharedPreferences?.getBoolean("sync", false)
-            Log.i("new value for sync",syncSetting.toString())
+        if (key == "displayImages"){
+            val displayImages = sharedPreferences?.getBoolean(key, true)
+            Log.i(logTag, "Display images: $displayImages")
+
+            if(displayImages == true) {
+                mainActivityBinding.newsRecyclerView.allViews.forEach {
+                    if(it is ImageView) {
+                        it.visibility = View.VISIBLE
+                    }
+                }
+            } else {
+                mainActivityBinding.newsRecyclerView.allViews.forEach {
+                    if(it is ImageView) {
+                        it.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 
