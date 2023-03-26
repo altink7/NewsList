@@ -5,9 +5,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import at.altin.hw3_newslist.R
+import at.altin.hw3_newslist.model.NewsItem
+import com.bumptech.glide.Glide
 
 /**
  * Adapter for the news list
@@ -17,7 +21,7 @@ import at.altin.hw3_newslist.R
  *  @version 1.0
  *  @since 2023-03-19
  */
-class NewsDetailAdapter(val news: String, val context: Context) : RecyclerView.Adapter<NewsDetailAdapter.NewsViewHolder>() {
+class NewsDetailAdapter(val news: NewsItem, val context: Context) : RecyclerView.Adapter<NewsDetailAdapter.NewsViewHolder>() {
 
     var onItemClickListener: ((String) -> Unit)? = null
     override fun getItemCount() = 1
@@ -32,13 +36,28 @@ class NewsDetailAdapter(val news: String, val context: Context) : RecyclerView.A
     }
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val newsItem: TextView = itemView.findViewById(R.id.news_item)
+        private val id: TextView = itemView.findViewById(R.id.news_nr_id)
+        private val title: TextView = itemView.findViewById(R.id.news_title)
+        private val author: TextView = itemView.findViewById(R.id.news_author)
+        private val date: TextView = itemView.findViewById(R.id.news_date)
+        private val image: ImageView = itemView.findViewById(R.id.news_image)
+        private val description: TextView = itemView.findViewById(R.id.news_description)
 
-        fun bind(string: String) {
-            this.newsItem.text = string
+        fun bind(news: NewsItem) {
+            this.id.text = buildString { append(news.id); append(": ") }
+            this.title.text = news.title
+            this.author.text = news.author
+            this.date.text = news.publicationDate
+            this.description.text = news.description
+
+            Glide
+                .with(context)
+                .load(news.url)
+                .placeholder(R.drawable.ic_launcher_background)
+                .into(image)
 
             itemView.setOnClickListener {
-                onItemClickListener?.invoke(string)
+                onItemClickListener?.invoke(news.toString())
             }
         }
     }

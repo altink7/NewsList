@@ -97,8 +97,15 @@ class NewsAdapter(news: List<NewsItem>, val context: Context) :
             onItemClickListener?.invoke(newsItem)
 
             itemView.setOnClickListener {
-                val startNewsDetailActivity = Intent(context, NewsDetailActivity::class.java)
-                startNewsDetailActivity.putExtra("newsItem", newsItemToString(newsItem))
+                val startNewsDetailActivity = Intent(context, NewsDetailActivity::class.java).also {
+                    it.putExtra("id", newsItem.id)
+                    it.putExtra("title", newsItem.title)
+                    it.putExtra("author", newsItem.author)
+                    it.putExtra("date", newsItem.publicationDate)
+                    it.putExtra("image", newsItem.url)
+                    it.putExtra("description", newsItem.description)
+                    it.putExtra("fullArticleLink", newsItem.fullArticleLink)
+                }
                 context.startActivity(startNewsDetailActivity)
             }
         }

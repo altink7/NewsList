@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import at.altin.hw3_newslist.recyclerView.NewsDetailAdapter
 import at.altin.hw3_newslist.NewsViewModel
 import at.altin.hw3_newslist.R
 import at.altin.hw3_newslist.databinding.ActivityNewsDetailBinding
+import at.altin.hw3_newslist.model.NewsItem
 
 /**
  * NewsDetailActivity
@@ -34,9 +37,15 @@ class NewsDetailActivity : AppCompatActivity() {
         newsDetailActivityBinding.lifecycleOwner = this
         newsDetailActivityBinding.newsViewModel = newsViewModel
 
-        val item = intent.getStringExtra("newsItem").toString()
+        val id = intent.getIntExtra("id",0)
+        val title = intent.getStringExtra("title")?: ""
+        val description = intent.getStringExtra("description")?: ""
+        val url = intent.getStringExtra("image")?: ""
+        val author = intent.getStringExtra("author")?: ""
+        val date = intent.getStringExtra("date")?: ""
+        val fullArticleLink = intent.getStringExtra("fullArticleLink")?: ""
 
-            val newsDetailAdapter = NewsDetailAdapter(item, this)
+            val newsDetailAdapter = NewsDetailAdapter(NewsItem(id,title, description,url,author,date,fullArticleLink, emptyList()), this)
             newsDetailAdapter.onItemClickListener = {
                 Log.i(logTag, "News clicked: $it")
             }
@@ -53,6 +62,14 @@ class NewsDetailActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.navigateBack)
         button.setOnClickListener {
             finish()
+        }
+
+        findViewById<Button>(R.id.fullStory)?.setOnClickListener {
+            val descriptionParam = findViewById<TextView>(R.id.news_description)
+            val layoutParam = descriptionParam.layoutParams as ConstraintLayout.LayoutParams
+            layoutParam.height = 1400
+            descriptionParam.layoutParams = layoutParam
+            findViewById<Button>(R.id.fullStory).isEnabled = false
         }
     }
 }
