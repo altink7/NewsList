@@ -7,12 +7,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.allViews
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
@@ -89,6 +86,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if(key == "signature"){
+            val signature = sharedPreferences?.getString(key, "")
+            Log.i(logTag, "Signature: $signature")
+            urlSignature = signature.toString()
+            newsViewModel.loadNews(urlSignature)
+
+        }
+
         if (key == "displayImages"){
             val displayImages = sharedPreferences?.getBoolean(key, true)
             Log.i(logTag, "Display images: $displayImages")
@@ -96,13 +101,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             val newsAdapter = mainActivityBinding.newsRecyclerView.adapter as NewsAdapter
             newsAdapter.displayImages = displayImages?:true
             newsAdapter.notifyDataSetChanged()
-        }
-        if(key == "signature"){
-            val signature = sharedPreferences?.getString(key, "")
-            Log.i(logTag, "Signature: $signature")
-            urlSignature = signature.toString()
-            newsViewModel.loadNews(urlSignature)
-
         }
     }
 
