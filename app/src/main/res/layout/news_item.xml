@@ -12,20 +12,6 @@
     http:layout_constraintTop_toBottomOf="@+id/news_nr_id">
 
     <TextView
-        android:id="@+id/news_nr_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:textAlignment="viewStart"
-        http:layout_constraintBottom_toBottomOf="parent"
-        http:layout_constraintStart_toStartOf="@+id/news_image"
-        http:layout_constraintTop_toTopOf="parent"
-        http:layout_constraintVertical_bias="0.136"
-        tools:layout_conversion_absoluteHeight="45dp"
-        tools:layout_conversion_absoluteWidth="392dp" />
-
-    <TextView
         android:id="@+id/news_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

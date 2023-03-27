@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide
  */
 class NewsAdapter(news: List<NewsItem>, val context: Context) :
     RecyclerView.Adapter<NewsAdapter.NewsViewHolder>(){
+    var displayImages: Boolean = true
+
     var news = news
         set(value) {
         field = value
@@ -43,18 +45,16 @@ class NewsAdapter(news: List<NewsItem>, val context: Context) :
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.bind(news[position],position)
+        holder.bind(news[position],position, displayImages)
     }
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val id: TextView = itemView.findViewById(R.id.news_nr_id)
         private val title: TextView = itemView.findViewById(R.id.news_title)
         private val author: TextView = itemView.findViewById(R.id.news_author)
         private val date: TextView = itemView.findViewById(R.id.news_date)
         private val image: ImageView = itemView.findViewById(R.id.news_image)
 
-        fun bind(newsItem: NewsItem, position: Int) {
-            id.text = buildString { append(newsItem.id); append(": ") }
+        fun bind(newsItem: NewsItem, position: Int, displayImages: Boolean) {
             title.text = newsItem.title
             author.text = newsItem.author
             date.text = newsItem.publicationDate
@@ -75,24 +75,33 @@ class NewsAdapter(news: List<NewsItem>, val context: Context) :
 
                 fun setLayoutParams(view: View) {
                     val layoutParams = view.layoutParams as ConstraintLayout.LayoutParams
-                    layoutParams.horizontalBias = 0.0f
+                    view.alpha = 1f
 
+                    layoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+                    layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
+
+                    view.bringToFront()
                     view.layoutParams = layoutParams
                 }
 
                 setLayoutParams(title)
                 setLayoutParams(author)
                 setLayoutParams(date)
-                setLayoutParams(id)
             }
-             if(position %11==0&&position!=0){
+             if(position!=0){
                 val layoutParams = image.layoutParams as ConstraintLayout.LayoutParams
-                 layoutParams.height = 280
+                 layoutParams.height = 150
                  layoutParams.width = 280
                  image.layoutParams = layoutParams
                  image.scaleType = ImageView.ScaleType.FIT_XY
                  image.alpha = 1f
                 }
+
+            if (displayImages) {
+                image.visibility = View.VISIBLE
+            } else {
+                image.visibility = View.GONE
+            }
 
             onItemClickListener?.invoke(newsItem)
 
@@ -101,7 +110,7 @@ class NewsAdapter(news: List<NewsItem>, val context: Context) :
                     it.putExtra("id", newsItem.id)
                     it.putExtra("title", newsItem.title)
                     it.putExtra("author", newsItem.author)
-                    it.putExtra("date", newsItem.publicationDate)
+                    it.putExtra("date", newsItem.publicationDate.toString())
                     it.putExtra("image", newsItem.url)
                     it.putExtra("description", newsItem.description)
                     it.putExtra("fullArticleLink", newsItem.fullArticleLink)

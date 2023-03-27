@@ -9,12 +9,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.allViews
-import androidx.core.view.get
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
@@ -23,9 +21,7 @@ import androidx.preference.PreferenceManager
 import at.altin.hw3_newslist.NewsViewModel
 import at.altin.hw3_newslist.R
 import at.altin.hw3_newslist.databinding.ActivityMainBinding
-import at.altin.hw3_newslist.model.NewsItem
 import at.altin.hw3_newslist.recyclerView.NewsAdapter
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -35,6 +31,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var mainActivityBinding: ActivityMainBinding
     private val logTag = "MainActivity"
     val showImages = booleanPreferencesKey("displayImages")
+    var urlSignature = "https://www.engadget.com/rss.xml" //https://www.derstandard.at/rss
 
     private val newsViewModel: NewsViewModel by viewModels()
 
@@ -96,19 +93,16 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             val displayImages = sharedPreferences?.getBoolean(key, true)
             Log.i(logTag, "Display images: $displayImages")
 
-            if(displayImages == true) {
-                mainActivityBinding.newsRecyclerView.allViews.forEach {
-                    if(it is ImageView) {
-                        it.visibility = View.VISIBLE
-                    }
-                }
-            } else {
-                mainActivityBinding.newsRecyclerView.allViews.forEach {
-                    if(it is ImageView) {
-                        it.visibility = View.GONE
-                    }
-                }
-            }
+            val newsAdapter = mainActivityBinding.newsRecyclerView.adapter as NewsAdapter
+            newsAdapter.displayImages = displayImages?:true
+            newsAdapter.notifyDataSetChanged()
+        }
+        if(key == "signature"){
+            val signature = sharedPreferences?.getString(key, "")
+            Log.i(logTag, "Signature: $signature")
+            urlSignature = signature.toString()
+            newsViewModel.loadNews(urlSignature)
+
         }
     }
 
@@ -124,7 +118,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             return true
         }
         if(item.itemId == R.id.button_load_data) {
-            newsViewModel.loadNews()
+            newsViewModel.loadNews(urlSignature)
             return true
         }
         return super.onOptionsItemSelected(item)

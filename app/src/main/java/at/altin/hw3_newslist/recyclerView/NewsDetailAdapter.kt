@@ -2,6 +2,7 @@ package at.altin.hw3_newslist.recyclerView
 
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,6 @@ class NewsDetailAdapter(val news: NewsItem, val context: Context) : RecyclerView
     }
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val id: TextView = itemView.findViewById(R.id.news_nr_id)
         private val title: TextView = itemView.findViewById(R.id.news_title)
         private val author: TextView = itemView.findViewById(R.id.news_author)
         private val date: TextView = itemView.findViewById(R.id.news_date)
@@ -44,11 +44,10 @@ class NewsDetailAdapter(val news: NewsItem, val context: Context) : RecyclerView
         private val description: TextView = itemView.findViewById(R.id.news_description)
 
         fun bind(news: NewsItem) {
-            this.id.text = buildString { append(news.id); append(": ") }
             this.title.text = news.title
             this.author.text = news.author
             this.date.text = news.publicationDate
-            this.description.text = news.description
+            this.description.text = Html.fromHtml(news.description, Html.FROM_HTML_MODE_COMPACT)
 
             Glide
                 .with(context)

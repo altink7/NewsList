@@ -1,15 +1,13 @@
 package at.altin.hw3_newslist
 
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import at.altin.hw3_newslist.model.NewsItem
-import at.altin.hw3_newslist.model.parseXmlNews
+import at.altin.hw3_newslist.model.RssParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -37,15 +35,15 @@ class NewsViewModel : ViewModel() {
         get() = _hasError
     private val _hasError = MutableLiveData(false)
 
-    fun loadNews() {
+    fun loadNews(url:String) {
         _hasError.postValue(false)
         viewModelScope.launch(Dispatchers.Default) {
             val res = async(Dispatchers.IO) {
-                getContentFromWeb();
+                getContentFromWeb(url);
             }
             when (val result = res.await()) {
                 is Success -> {
-                    _news.postValue(parseXmlNews(result.result))
+                    _news.postValue(RssParser().parse(result.result.byteInputStream()))
                 }
                 is Failed -> {
                     Log.e(logTag, result.text, result.throwable)
@@ -59,9 +57,9 @@ class NewsViewModel : ViewModel() {
         }
     }
 
-    private fun getContentFromWeb(): FetchNewsResult {
+    private fun getContentFromWeb(url:String): FetchNewsResult {
         return try {
-            val url = URL("https://www.engadget.com/rss.xml")
+            val url = URL(url)
             (url.openConnection() as HttpURLConnection).run {
                 requestMethod = "GET"
                 connectTimeout = 5000

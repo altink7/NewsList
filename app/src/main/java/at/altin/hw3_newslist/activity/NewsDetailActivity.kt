@@ -5,13 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import at.altin.hw3_newslist.recyclerView.NewsDetailAdapter
 import at.altin.hw3_newslist.NewsViewModel
 import at.altin.hw3_newslist.R
@@ -40,7 +37,7 @@ class NewsDetailActivity : AppCompatActivity() {
         newsDetailActivityBinding.lifecycleOwner = this
         newsDetailActivityBinding.newsViewModel = newsViewModel
 
-        val id = intent.getIntExtra("id",0)
+        val id = intent.getStringExtra("id")?: ""
         val title = intent.getStringExtra("title")?: ""
         val description = intent.getStringExtra("description")?: ""
         val url = intent.getStringExtra("image")?: ""
